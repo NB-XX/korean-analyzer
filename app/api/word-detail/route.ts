@@ -35,28 +35,28 @@ export async function POST(req: NextRequest) {
     }
 
     // 构建上下文信息
-    let contextWordInfo = `单词 "${word}" (词性: ${pos}`;
-    if (furigana) contextWordInfo += `, 读音: ${furigana}`;
-    if (romaji) contextWordInfo += `, 罗马音: ${romaji}`;
+    let contextWordInfo = `단어 "${word}" (품사: ${pos}`;
+    if (furigana) contextWordInfo += `, 읽기: ${furigana}`;
+    if (romaji) contextWordInfo += `, 로마자: ${romaji}`;
     contextWordInfo += `)`;
 
     // 构建详情查询请求
-    const detailPrompt = `在日语句子 "${sentence}" 的上下文中，${contextWordInfo} 的具体含义是什么？请提供以下信息，并以严格的JSON对象格式返回，不要包含任何markdown或其他非JSON字符：
+    const detailPrompt = `일본어 문장 "${sentence}" 의 컨텍스트에서, ${contextWordInfo} 의 구체적인 의미는 무엇입니까? 다음 정보를 제공하고 엄격한 JSON 객체 형식으로 반환하세요. 마크다운 또는 기타 JSON이 아닌 문자를 포함하지 마세요.
 
-请特别注意：
-1. 如果是动词，准确识别其时态（过去式、现在式等）、语态（被动、使役等）和礼貌程度（简体、敬体等）
-2. 对于助动词与动词组合（如"食べた"），明确说明原形及活用变化过程
-3. 对于形容词，注意区分い形容词和な形容词，并识别其活用形式
-4. 准确提供辞书形，对于已经是辞书形的词汇，可以填写相同的值
+특히 주의하세요:
+1. 동사의 경우 시제(과거형, 현재형 등)와 어미(수동, 의무 등)를 정확하게 인식하고 예의 정도(간체, 존대 등)를 구분하세요
+2. 동사와 도움동사의 결합("먹었다")의 경우 원형과 활용 변화 과정을 명확하게 설명하세요
+3. 형용사의 경우 い형용사와な형용사를 구분하고 활용 형태를 인식하세요
+4. 정확하게 사전형을 제공하세요. 이미 사전형인 단어의 경우 동일한 값을 입력할 수 있습니다
 
 {
   "originalWord": "${word}",
-  "chineseTranslation": "中文翻译",
+  "chineseTranslation": "중문 번역",
   "pos": "${pos}",
   "furigana": "${furigana || ''}",
   "romaji": "${romaji || ''}",
-  "dictionaryForm": "辞书形（如果适用）",
-  "explanation": "中文解释（包括词形变化、时态、语态等详细语法信息）"
+  "dictionaryForm": "사전형(만약 적용된다면)",
+  "explanation": "중문 설명(형태 변화, 시제, 어미 등 세밀한 문법 정보 포함)"
 }`;
 
     const payload = {
@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
     if (!response.ok) {
       console.error('AI API error (Word Detail):', data);
       return NextResponse.json(
-        { error: data.error || { message: '获取词汇详情时出错' } },
+        { error: data.error || { message: '단어 세부 정보 가져오기 실패' } },
         { status: response.status }
       );
     }
@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error('Server error (Word Detail):', error);
     return NextResponse.json(
-      { error: { message: error instanceof Error ? error.message : '服务器错误' } },
+      { error: { message: error instanceof Error ? error.message : '서버 오류' } },
       { status: 500 }
     );
   }

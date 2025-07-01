@@ -38,7 +38,7 @@ function getHeaders(userApiKey?: string): HeadersInit {
   return headers;
 }
 
-// 分析日语句子
+// 分析韩语句子
 export async function analyzeSentence(
   sentence: string,
   userApiKey?: string,
@@ -56,18 +56,7 @@ export async function analyzeSentence(
       method: 'POST',
       headers,
       body: JSON.stringify({ 
-        prompt: `请对以下日语句子进行详细的词法分析，并以JSON数组格式返回结果。每个对象应包含以下字段："word", "pos", "furigana", "romaji"。
-
-请特别注意以下分析要求：
-1. 将助动词与对应动词正确结合。如"食べた"应作为一个单词，而不是分开为"食べ"和"た"。
-2. 正确识别动词的时态变化，如"いた"是"いる"的过去时，应作为一个完整单词处理。
-3. 合理处理助词，应当与前后词汇适当分离。
-4. 避免过度分词，特别是对于构成一个语法或语义单位的组合。
-5. 对于复合词，如"持って行く"，根据语义和使用习惯确定是作为一个词还是分开处理。
-
-确保输出是严格的JSON格式，不包含任何markdown或其他非JSON字符。
-
-待解析句子： "${sentence}"`,
+        prompt: `请对以下韩语句子进行详细的词法分析，并以JSON数组格式返回结果。每个对象应包含以下字段：\"word\", \"pos\", \"hangul\", \"romanization\"。\n\n请特别注意以下分析要求：\n1. 正确识别韩语词干变化、敬语、时态等语法特征。\n2. 合理处理助词、词尾变化，应与前后词汇适当分离。\n3. 对于复合词或惯用表达，根据语义和使用习惯决定是否合并。\n4. 避免过度分词，保持语法和语义完整性。\n5. 输出字段中：\"hangul\"为韩文原文，\"romanization\"为标准罗马音。\n\n确保输出是严格的JSON格式，不包含任何markdown或其他非JSON字符。\n\n待解析句子： \"${sentence}\"`,
         model: MODEL_NAME,
         apiUrl: userApiUrl !== DEFAULT_API_URL ? userApiUrl : undefined
       })
@@ -103,7 +92,7 @@ export async function analyzeSentence(
   }
 }
 
-// 流式分析日语句子
+// 流式分析韩语句子
 export async function streamAnalyzeSentence(
   sentence: string,
   onChunk: (chunk: string, isDone: boolean) => void,
@@ -124,18 +113,7 @@ export async function streamAnalyzeSentence(
       method: 'POST',
       headers,
       body: JSON.stringify({ 
-        prompt: `请对以下日语句子进行详细的词法分析，并以JSON数组格式返回结果。每个对象应包含以下字段："word", "pos", "furigana", "romaji"。
-
-请特别注意以下分析要求：
-1. 将助动词与对应动词正确结合。如"食べた"应作为一个单词，而不是分开为"食べ"和"た"。
-2. 正确识别动词的时态变化，如"いた"是"いる"的过去时，应作为一个完整单词处理。
-3. 合理处理助词，应当与前后词汇适当分离。
-4. 避免过度分词，特别是对于构成一个语法或语义单位的组合。
-5. 对于复合词，如"持って行く"，根据语义和使用习惯确定是作为一个词还是分开处理。
-
-确保输出是严格的JSON格式，不包含任何markdown或其他非JSON字符。
-
-待解析句子： "${sentence}"`,
+        prompt: `请对以下韩语句子进行详细的词法分析，并以JSON数组格式返回结果。每个对象应包含以下字段：\"word\", \"pos\", \"hangul\", \"romanization\"。\n\n请特别注意以下分析要求：\n1. 正确识别韩语词干变化、敬语、时态等语法特征。\n2. 合理处理助词、词尾变化，应与前后词汇适当分离。\n3. 对于复合词或惯用表达，根据语义和使用习惯决定是否合并。\n4. 避免过度分词，保持语法和语义完整性。\n5. 输出字段中：\"hangul\"为韩文原文，\"romanization\"为标准罗马音。\n\n确保输出是严格的JSON格式，不包含任何markdown或其他非JSON字符。\n\n待解析句子： \"${sentence}\"`,
         model: MODEL_NAME,
         apiUrl: userApiUrl !== DEFAULT_API_URL ? userApiUrl : undefined,
         stream: true

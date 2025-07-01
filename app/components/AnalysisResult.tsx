@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { containsKanji, getPosClass, posChineseMap, speakJapanese } from '../utils/helpers';
+import { containsKanji, getPosClass, posChineseMap, speakKorean } from '../utils/helpers';
 import { getWordDetails, TokenData, WordDetail } from '../services/api';
 import { FaVolumeUp } from 'react-icons/fa';
 
@@ -130,7 +130,7 @@ export default function AnalysisResult({
   const handleWordSpeak = async (word: string) => {
     try {
       // 词汇详解中统一使用系统TTS，速度更快
-      speakJapanese(word);
+      speakKorean(word);
     } catch (error) {
       console.error('朗读失败:', error);
     }

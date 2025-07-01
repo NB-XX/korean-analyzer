@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { translateText, streamTranslateText } from '../services/api';
 
 interface TranslationSectionProps {
-  japaneseText: string;
+  koreanText: string;
   userApiKey?: string;
   userApiUrl?: string;
   useStream?: boolean;
@@ -12,7 +12,7 @@ interface TranslationSectionProps {
 }
 
 export default function TranslationSection({
-  japaneseText,
+  koreanText,
   userApiKey,
   userApiUrl,
   useStream = true, // 默认为true，保持向后兼容
@@ -23,8 +23,8 @@ export default function TranslationSection({
   const [isVisible, setIsVisible] = useState(true);
 
   const handleTranslate = async () => {
-    if (!japaneseText) {
-      alert('请先输入或分析日语句子！');
+    if (!koreanText) {
+      alert('한국어 문장을 먼저 입력하거나 분석하세요!');
       return;
     }
 
@@ -36,7 +36,7 @@ export default function TranslationSection({
       if (useStream) {
         // 使用流式API进行翻译
         streamTranslateText(
-          japaneseText,
+          koreanText,
           (chunk, isDone) => {
             setTranslation(chunk);
             if (isDone) {
@@ -45,7 +45,7 @@ export default function TranslationSection({
           },
           (error) => {
             console.error('Error during streaming translation:', error);
-            setTranslation(`翻译时发生错误: ${error.message || '未知错误'}。`);
+            setTranslation(`번역 중 오류가 발생했습니다: ${error.message || '알 수 없는 오류'}입니다.`);
             setIsLoading(false);
           },
           userApiKey,
@@ -53,13 +53,13 @@ export default function TranslationSection({
         );
       } else {
         // 使用传统API进行翻译
-        const translatedText = await translateText(japaneseText, userApiKey, userApiUrl);
+        const translatedText = await translateText(koreanText, userApiKey, userApiUrl);
         setTranslation(translatedText);
         setIsLoading(false);
       }
     } catch (error) {
       console.error('Error during full sentence translation:', error);
-      setTranslation(`翻译时发生错误: ${error instanceof Error ? error.message : '未知错误'}。`);
+      setTranslation(`번역 중 오류가 발생했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}입니다.`);
       setIsLoading(false);
     }
   };
@@ -70,7 +70,7 @@ export default function TranslationSection({
 
   // 当trigger变化时自动开始翻译
   useEffect(() => {
-    if (trigger && japaneseText) {
+    if (trigger && koreanText) {
       handleTranslate();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -85,22 +85,22 @@ export default function TranslationSection({
           onClick={handleTranslate}
           disabled={isLoading}
         >
-          {!isLoading && <span className="button-text">翻译整句</span>}
+          {!isLoading && <span className="button-text">전체 문장 번역</span>}
           <div className="loading-spinner" style={{ display: isLoading ? 'inline-block' : 'none' }}></div>
-          {isLoading && <span className="button-text">翻译中...</span>}
+          {isLoading && <span className="button-text">번역 중...</span>}
         </button>
       </div>
 
       {(isLoading || translation) && (
         <div id="fullTranslationCard" className="premium-card mt-4">
           <div className="flex justify-between items-center mb-3">
-            <h2 className="text-2xl font-semibold text-gray-700" style={{ marginBottom: isVisible ? '0.75rem' : '0' }}>全文翻译 (中)</h2>
+            <h2 className="text-2xl font-semibold text-gray-700" style={{ marginBottom: isVisible ? '0.75rem' : '0' }}>전체 번역 (중)</h2>
             <button 
               id="toggleFullTranslationButton" 
               className="premium-button premium-button-outlined text-sm px-3 py-1"
               onClick={toggleVisibility}
             >
-              {isVisible ? '隐藏' : '显示'}
+              {isVisible ? '숨기기' : '보기'}
             </button>
           </div>
           
@@ -109,7 +109,7 @@ export default function TranslationSection({
               {isLoading && !translation ? (
                 <div className="flex items-center justify-center py-4">
                   <div className="loading-spinner"></div>
-                  <span className="ml-2 text-gray-500">正在翻译，请稍候...</span>
+                  <span className="ml-2 text-gray-500">번역 중입니다. 잠시만 기다려주세요...</span>
                 </div>
               ) : (
                 translation

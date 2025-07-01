@@ -27,12 +27,12 @@ export const posChineseMap: Record<string, string> = {
 };
 
 // 朗读日语文本
-export function speakJapanese(text: string): void {
+export function speakKorean(text: string): void {
   if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
     window.speechSynthesis.cancel();
     
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'ja-JP';
+    utterance.lang = 'ko-KR';
     utterance.rate = 0.9;
     utterance.pitch = 1;
     window.speechSynthesis.speak(utterance);
@@ -42,19 +42,19 @@ export function speakJapanese(text: string): void {
 }
 
 // 使用Gemini TTS朗读文本
-export async function speakJapaneseWithTTS(text: string, apiKey?: string, voice?: string): Promise<void> {
+export async function speakKoreanWithTTS(text: string, apiKey?: string, voice?: string): Promise<void> {
   try {
-    const url = await getJapaneseTtsAudioUrl(text, apiKey, voice);
+    const url = await getKoreanTtsAudioUrl(text, apiKey, voice);
     const audioElement = new Audio(url);
     audioElement.play();
   } catch (error) {
     console.warn('Gemini TTS 播放失败，尝试使用系统朗读', error);
-    speakJapanese(text);
+    speakKorean(text);
   }
 }
 
 // 获取 Gemini TTS 音频 URL
-export async function getJapaneseTtsAudioUrl(text: string, apiKey?: string, voice: string = 'Kore'): Promise<string> {
+export async function getKoreanTtsAudioUrl(text: string, apiKey?: string, voice: string = 'Kore'): Promise<string> {
   const { audio, mimeType } = await synthesizeSpeech(text, voice, apiKey);
   return createPlayableUrlFromPcm(audio, mimeType);
 }

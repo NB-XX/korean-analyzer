@@ -7,7 +7,7 @@ import { FaCamera, FaVolumeUp, FaChevronDown, FaDesktop, FaRobot, FaInfoCircle }
 
 // 添加内联样式
 const placeholderStyle = `
-  #japaneseInput::placeholder {
+  #koreanInput::placeholder {
     color: rgba(0, 0, 0, 0.4) !important;
     opacity: 0.6 !important;
   }
@@ -49,7 +49,7 @@ export default function InputSection({
   ttsProvider,
   onTtsProviderChange
 }: InputSectionProps) {
-  const [inputText, setInputText] = useState('');
+  const [koreanInput, setKoreanInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [ttsAudioUrl, setTtsAudioUrl] = useState<string | null>(null);
@@ -87,37 +87,37 @@ export default function InputSection({
   }, [showTtsDropdown]);
 
   const handleAnalyze = () => {
-    if (!inputText.trim()) {
-      alert('请输入日语句子！');
+    if (!koreanInput.trim()) {
+      alert('请输入韩语句子！');
       return;
     }
 
     setIsLoading(true);
-    onAnalyze(inputText);
+    onAnalyze(koreanInput);
     setTimeout(() => setIsLoading(false), 300); // 简化示例，实际应在分析完成后设置
   };
 
   const handleSpeak = async () => {
-    if (!inputText.trim()) return;
+    if (!koreanInput.trim()) return;
     setIsSpeaking(true);
     
     try {
       if (ttsProvider === 'gemini') {
         // 使用 Gemini TTS，添加风格控制
         const stylePrompt = TTS_STYLES.find(s => s.value === selectedStyle)?.prompt || '';
-        const textToSpeak = stylePrompt + inputText;
+        const textToSpeak = stylePrompt + koreanInput;
         const url = await getJapaneseTtsAudioUrl(textToSpeak, userApiKey, selectedVoice);
         setTtsAudioUrl(url);
       } else {
         // 使用系统 TTS
         setTtsAudioUrl(null);
-        speakJapanese(inputText);
+        speakJapanese(koreanInput);
       }
     } catch (e) {
       console.error('TTS error:', e);
       setTtsAudioUrl(null);
       // 如果 Gemini TTS 失败，回退到系统 TTS
-      speakJapanese(inputText);
+      speakJapanese(koreanInput);
     } finally {
       setIsSpeaking(false);
     }
@@ -164,14 +164,14 @@ export default function InputSection({
       const compressedImageData = await compressImage(file);
       
       // 优化提示词，明确不要换行符
-      const imageExtractionPrompt = "请提取并返回这张图片中的所有日文文字。提取的文本应保持原始格式，但不要输出换行符，用空格替代。不要添加任何解释或说明。";
+      const imageExtractionPrompt = "请提取并返回这张图片中的所有韩文文字。提取的文本应保持原始格式，但不要输出换行符，用空格替代。不要添加任何解释或说明。";
       
       if (useStream) {
         // 使用流式API进行图片文字提取
         streamExtractTextFromImage(
           compressedImageData,
           (chunk, isDone) => {
-            setInputText(chunk);
+            setKoreanInput(chunk);
             
             if (isDone) {
               setIsImageUploading(false);
@@ -192,7 +192,7 @@ export default function InputSection({
       } else {
         // 使用传统API进行图片文字提取
         const extractedText = await extractTextFromImage(compressedImageData, imageExtractionPrompt, userApiKey, userApiUrl);
-        setInputText(extractedText); 
+        setKoreanInput(extractedText); 
         setUploadStatus('文字提取成功！请确认后点击"解析句子"。');
         setUploadStatusClass('mt-2 text-sm text-green-600');
         setIsImageUploading(false);
@@ -290,15 +290,15 @@ export default function InputSection({
   return (
     <div className="premium-card">
       <style dangerouslySetInnerHTML={{ __html: placeholderStyle }} />
-      <h2 className="text-xl sm:text-2xl font-semibold text-gray-700 mb-3 sm:mb-4">输入日语句子</h2>
+      <h2 className="text-xl sm:text-2xl font-semibold text-gray-700 mb-3 sm:mb-4">输入韩语句子</h2>
       <div className="relative">
         <textarea 
-          id="japaneseInput" 
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#007AFF] focus:border-[#007AFF] transition duration-150 ease-in-out resize-none japanese-text" 
+          id="koreanInput" 
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#007AFF] focus:border-[#007AFF] transition duration-150 ease-in-out resize-none korean-text" 
           rows={4} 
-          placeholder="例：今日はいい天気ですね。或上传图片识别文字，也可直接粘贴图片。"
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
+          placeholder="例：오늘은 좋은 날씨입니다. 또는 이미지를 업로드하거나 이미지를 직접 붙여넣기할 수 있습니다."
+          value={koreanInput}
+          onChange={(e) => setKoreanInput(e.target.value)}
           onPaste={handlePaste}
           style={{ 
             fontSize: '16px', // 防止移动设备缩放
@@ -311,10 +311,10 @@ export default function InputSection({
           autoCorrect="off"
           spellCheck="false"
         ></textarea>
-        {inputText.trim() !== '' && (
+        {koreanInput.trim() !== '' && (
           <button 
             className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 focus:outline-none"
-            onClick={() => setInputText('')}
+            onClick={() => setKoreanInput('')}
             title="清空内容"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -351,10 +351,10 @@ export default function InputSection({
                 id="speakButton"
                 className="premium-button premium-button-secondary flex-1 sm:w-auto text-sm sm:text-base py-2 sm:py-3 rounded-r-none border-r-0"
                 onClick={handleSpeak}
-                disabled={!inputText.trim() || isLoading || isSpeaking}
-                title={inputText.trim() ? 
+                disabled={!koreanInput.trim() || isLoading || isSpeaking}
+                title={koreanInput.trim() ? 
                   (ttsProvider === 'gemini' ? 
-                    `朗读文本 (Gemini TTS，预计需要 ${getEstimatedTime(inputText)})` : 
+                    `朗读文本 (Gemini TTS，预计需要 ${getEstimatedTime(koreanInput)})` : 
                     '朗读文本 (系统 TTS，即时播放)'
                   ) : 
                   '请先输入文本'
@@ -498,7 +498,7 @@ export default function InputSection({
               </p>
               <p className="text-xs text-blue-600 mt-1">
                 • 使用 Gemini TTS 技术，音质更自然<br/>
-                • 当前文本预计需要：{getEstimatedTime(inputText)}<br/>
+                • 当前文本预计需要：{getEstimatedTime(koreanInput)}<br/>
                 • 请保持页面打开，不要离开或刷新
               </p>
             </div>

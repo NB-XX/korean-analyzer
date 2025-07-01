@@ -11,8 +11,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "日本語文章解析器 - AI驱动",
-  description: "AI驱动・深入理解日语句子结构与词义",
+  title: "한국어 문장 분석기 - AI 구동",
+  description: "AI 구동・한국어 문장 구조와 단어 의미 깊이 이해",
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#ffffff' },
     { media: '(prefers-color-scheme: dark)', color: '#1f2937' }

@@ -54,7 +54,7 @@ export default function SettingsModal({
       streamEnabled
     );
     
-    setStatus('设置已保存！');
+    setStatus('설정이 저장되었습니다!');
     setStatusClass('mt-3 text-sm text-green-600');
     setTimeout(() => closeModal(), 1500);
   };
@@ -63,7 +63,7 @@ export default function SettingsModal({
     <>
       <button
         id="settingsButton"
-        title="API 设置"
+        title="API 설정"
         onClick={onModalClose}
         className="fixed top-6 right-6 z-1000 bg-white text-[#007AFF] border border-[#007AFF] rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-50 transition-all"
       >
@@ -75,7 +75,7 @@ export default function SettingsModal({
         href="https://github.com/cokice/japanese-analyzer"
         target="_blank"
         rel="noopener noreferrer"
-        title="GitHub 仓库"
+        title="GitHub 저장소"
         className="fixed top-6 right-20 z-1000 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 border border-gray-800 dark:border-gray-600 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
       >
         <FaGithub />
@@ -95,21 +95,21 @@ export default function SettingsModal({
           >
             &times;
           </span>
-          <h3 className="text-xl font-semibold text-gray-700 mb-4">自定义API设置</h3>
+          <h3 className="text-xl font-semibold text-gray-700 mb-4">사용자 정의 API 설정</h3>
           
           <div className="mb-4">
             <p className="text-sm text-gray-600 mb-3">
-              应用默认使用服务器端API密钥，无需配置即可使用。如需使用自己的密钥和API，请在下方配置。
+              애플리케이션은 기본적으로 서버 측 API 키를 사용하여 작동합니다. 설정할 필요가 없습니다. 자신의 키와 API를 사용하려면 아래에서 설정하세요.
             </p>
             
             <label htmlFor="modalApiKeyInput" className="block text-sm font-medium text-gray-700 mb-1">
-              自定义 API 密钥 (可选):
+              사용자 정의 API 키 (선택 사항):
             </label>
             <input 
               type="password" 
               id="modalApiKeyInput" 
               className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" 
-              placeholder="输入您的 API 密钥"
+              placeholder="API 키 입력"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
             />
@@ -117,18 +117,18 @@ export default function SettingsModal({
 
           <div className="mb-4">
             <label htmlFor="modalApiUrlInput" className="block text-sm font-medium text-gray-700 mb-1">
-              自定义 API URL (可选):
+              사용자 정의 API URL (선택 사항):
             </label>
             <input 
               type="text" 
               id="modalApiUrlInput" 
               className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" 
-              placeholder="例如: https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
+              placeholder="예: https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
               value={apiUrl}
               onChange={(e) => setApiUrl(e.target.value)}
             />
             <p className="text-xs text-gray-500 mt-1">
-              留空则使用默认端点。若使用自定义域名，请在域名后加
+              비워두면 기본 엔드포인트를 사용합니다. 사용자 정의 도메인을 사용하려면 도메인 뒤에
               <code className="px-1 py-0.5 bg-gray-100 rounded">v1/chat/completions</code>
             </p>
           </div>
@@ -136,7 +136,7 @@ export default function SettingsModal({
           <div className="mb-4">
             <div className="flex items-center justify-between">
               <label htmlFor="useStreamToggle" className="block text-sm font-medium text-gray-700">
-                启用流式输出:
+                스트림 출력 사용:
               </label>
               <label className="inline-flex items-center cursor-pointer">
                 <input 
@@ -150,7 +150,7 @@ export default function SettingsModal({
               </label>
             </div>
             <p className="text-xs text-gray-500 mt-1">
-              流式输出可以实时显示解析结果，但可能在某些网络环境下不稳定。
+              스트림 출력은 실시간으로 분석 결과를 표시할 수 있지만 일부 네트워크 환경에서는 불안정할 수 있습니다.
             </p>
           </div>
 
@@ -159,12 +159,12 @@ export default function SettingsModal({
             className="premium-button premium-button-success w-full"
             onClick={handleSaveSettings}
           >
-            <FaSave className="mr-2" />保存设置
+            <FaSave className="mr-2" />설정 저장
           </button>
           {status && <div id="settingsStatus" className={statusClass}>{status}</div>}
           
           <div className="mt-4 text-xs text-gray-500">
-            <p>注意：自定义设置仅存储在您的浏览器中，不会传输到我们的服务器。</p>
+            <p>참고: 사용자 정의 설정은 브라우저에 저장되며 서버로 전송되지 않습니다.</p>
           </div>
         </div>
       </div>

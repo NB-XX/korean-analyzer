@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 优化提示词，避免换行符
-    const defaultPrompt = "请提取并返回这张图片中的所有日文文字。提取的文本应保持原始格式，但不要输出换行符，用空格替代。不要添加任何解释或说明。";
+    const defaultPrompt = "请提取并返回这张图片中的所有韩文文字。提取的文本应保持原始格式，但不要输出换行符，用空格替代。不要添加任何解释或说明。";
     
     // 构建发送到AI服务的请求
     const payload = {
