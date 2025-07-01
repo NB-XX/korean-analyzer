@@ -50,7 +50,7 @@
 
 ### 一键部署到 Vercel（推荐）
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/cokice/japanese-analyzer&env=API_KEY)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/NB-XX/korean-analyzer)
 
 1. **Fork** 本仓库到自己的 GitHub 账户
 2. 在 [Vercel](https://vercel.com/) 中 **Import** 该仓库
