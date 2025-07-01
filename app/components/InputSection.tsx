@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { extractTextFromImage, streamExtractTextFromImage } from '../services/api';
-import { getJapaneseTtsAudioUrl, speakJapanese } from '../utils/helpers';
+import { getKoreanTtsAudioUrl, speakKorean } from '../utils/helpers';
 import { FaCamera, FaVolumeUp, FaChevronDown, FaDesktop, FaRobot, FaInfoCircle } from 'react-icons/fa';
 
 // 添加内联样式
@@ -106,18 +106,18 @@ export default function InputSection({
         // 使用 Gemini TTS，添加风格控制
         const stylePrompt = TTS_STYLES.find(s => s.value === selectedStyle)?.prompt || '';
         const textToSpeak = stylePrompt + koreanInput;
-        const url = await getJapaneseTtsAudioUrl(textToSpeak, userApiKey, selectedVoice);
+        const url = await getKoreanTtsAudioUrl(textToSpeak, userApiKey, selectedVoice);
         setTtsAudioUrl(url);
       } else {
         // 使用系统 TTS
         setTtsAudioUrl(null);
-        speakJapanese(koreanInput);
+        speakKorean(koreanInput);
       }
     } catch (e) {
       console.error('TTS error:', e);
       setTtsAudioUrl(null);
       // 如果 Gemini TTS 失败，回退到系统 TTS
-      speakJapanese(koreanInput);
+      speakKorean(koreanInput);
     } finally {
       setIsSpeaking(false);
     }
