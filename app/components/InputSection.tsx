@@ -298,7 +298,7 @@ export default function InputSection({
           rows={4} 
           placeholder="例：오늘은 좋은 날씨입니다. 또는 이미지를 업로드하거나 이미지를 직접 붙여넣기할 수 있습니다."
           value={koreanInput}
-          onChange={(e) => setKoreanInput(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setKoreanInput(e.target.value)}
           onPaste={handlePaste}
           style={{ 
             fontSize: '16px', // 防止移动设备缩放
