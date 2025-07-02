@@ -392,7 +392,7 @@ export default function Home() {
 
           {currentSentence && (
             <TranslationSection
-              japaneseText={currentSentence}
+              koreanText={currentSentence}
               userApiKey={userApiKey}
               userApiUrl={userApiUrl}
               useStream={useStream}
